@@ -1,0 +1,23 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: train
+display_name: train_model
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+inputs:
+  train_data: 
+    type: uri_folder
+outputs:
+  model_output:
+    type: mlflow_model
+#code: ./train_src
+code: ./
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:general_environment:0.4.0
+command: >-
+  python 
+  src/train_src/train.py
+  --train_data ${{inputs.train_data}}
+  --model_output ${{outputs.model_output}} # Reference 'output_data' as an input
+# </component>

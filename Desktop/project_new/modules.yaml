@@ -1,0 +1,14 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: modules
+display_name: functions
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+code: ./modules
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:general_environment:0.4.0
+command: >-
+  python 
+  aml_config_functions.py
+# </component>

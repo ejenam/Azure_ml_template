@@ -1,0 +1,26 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: test
+display_name: test_model
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+inputs:
+  test_data: 
+    type: uri_folder
+  model_input:
+    type: mlflow_model
+outputs:
+  inference_df:
+    type: uri_folder
+#code: ./test_src
+code: ./
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:general_environment:0.4.0
+command: >-
+  python 
+  src/test_src/test.py
+  --test_data ${{inputs.test_data}}
+  --model_input ${{inputs.model_input}}
+  --inference_df ${{outputs.inference_df}}  # Reference 'output_data' as an input
+# </component>

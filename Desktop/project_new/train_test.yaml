@@ -1,0 +1,28 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: train_test
+display_name: training_data
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+inputs:
+  input_data: 
+    type: uri_folder
+outputs:
+  HG_model_output:
+    type: uri_folder
+  train_output:
+    type: uri_folder
+  test_output:
+    type: uri_folder
+code: ./train_src
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:general_environment:0.4.0
+command: >-
+  python 
+  train.py
+  --input_data ${{inputs.input_data}} 
+  --HG_model_output ${{outputs.HG_model_output}}  # Reference 'output_data' as an input
+  --train_output ${{outputs.train_output}}
+  --test_output ${{outputs.test_output}}
+# </component>

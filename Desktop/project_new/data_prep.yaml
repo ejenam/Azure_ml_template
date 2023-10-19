@@ -1,0 +1,21 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: data_prep
+display_name: data_preparation
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+inputs:
+  raw_data: 
+    type: uri_folder 
+outputs:
+  prep_data:
+    type: uri_folder
+code: ./
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:general_environment:0.4.0
+command: >-
+  python src/prep_src/prep.py 
+  --raw_data ${{inputs.raw_data}} 
+  --prep_data ${{outputs.prep_data}}  # Reference 'output_data' as an input
+# </component>
